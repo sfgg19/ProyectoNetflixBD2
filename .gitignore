@@ -1,0 +1,24 @@
+# Ignorar carpetas de compilación de Visual Studio
+[Bb]in/
+[Oo]bj/
+
+# Ignorar la carpeta oculta de Visual Studio
+.vs/
+
+# Ignorar archivos de bases de datos locales (SQL Server)
+*.mdf
+*.ldf
+*.ndf
+
+# Ignorar archivos de usuario específicos (configuraciones locales de VS)
+*.user
+*.suo
+
+# Ignorar paquetes descargados de NuGet (se restauran automáticamente)
+packages/
+*.nupkg
+
+# Ignorar otros archivos temporales
+*.tmp
+*.log
+*.cache
