@@ -59,7 +59,17 @@ namespace ProyectoFinalCINEPOLIS
             btnAdmin.BackColor = Color.DarkRed;
             btnAdmin.ForeColor = Color.White;
             btnAdmin.FlatStyle = FlatStyle.Flat;
-            btnAdmin.Click += (s, ev) => { new FrmAdmin().ShowDialog(); };
+            btnAdmin.Click += (s, ev) => 
+            { 
+                if (textBox1.Text.Trim() == "admin@cinepolis.com" && txtPassword.Text.Trim() == "admin123")
+                {
+                    new FrmAdmin().ShowDialog(); 
+                }
+                else
+                {
+                    MessageBox.Show("Acceso no autorizado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
             textBox1.Parent.Controls.Add(btnAdmin);
 
             // Expandir el contenedor negro si es necesario para que todo quepa
