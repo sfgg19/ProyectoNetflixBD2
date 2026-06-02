@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Netflix.Modelos
 {
+    [BsonIgnoreExtraElements]
     public class Perfil
     {
         public string IDPerfil { get; set; }

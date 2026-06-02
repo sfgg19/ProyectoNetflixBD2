@@ -19,5 +19,21 @@ namespace Netflix.Datos
             calif.FechaCalificacion = DateTime.Now;
             _coleccion.InsertOne(calif);
         }
+
+        public System.Collections.Generic.List<Calificacion> ObtenerPorContenido(string idContenido)
+        {
+            return _coleccion.Find(c => c.IDContenido == idContenido).ToList();
+        }
+
+        public void Actualizar(Calificacion calif)
+        {
+            calif.FechaCalificacion = DateTime.Now;
+            _coleccion.ReplaceOne(c => c.IDCalificacion == calif.IDCalificacion, calif);
+        }
+
+        public void Borrar(string id)
+        {
+            _coleccion.DeleteOne(c => c.IDCalificacion == id);
+        }
     }
 }

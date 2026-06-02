@@ -5,6 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Netflix.Modelos
 {
+    [BsonIgnoreExtraElements]
     public class Cuenta
     {
         [BsonId]
@@ -12,6 +13,7 @@ namespace Netflix.Modelos
         public string IDCuenta { get; set; }
         
         public string Email { get; set; }
+        public string Password { get; set; }
         public DateTime FechaRegistro { get; set; }
         public string TarjetaEnmascarada { get; set; }
 
@@ -20,6 +22,7 @@ namespace Netflix.Modelos
         public List<Pago> Pagos { get; set; } = new List<Pago>();
     }
 
+    [BsonIgnoreExtraElements]
     public class Plan
     {
         public string NombrePlan { get; set; }

@@ -1,4 +1,4 @@
-﻿using Netflix.Datos;
+using Netflix.Datos;
 using Netflix.Modelos;
 using System;
 using System.Collections.Generic;
@@ -28,6 +28,19 @@ namespace ProyectoFinalCINEPOLIS
         {
             if (perfilActual != null)
                 lblUsuario.Text = "👤 " + perfilActual.NombrePerfil;
+
+            // Botón Cerrar Sesión
+            Button btnCerrarSesion = new Button();
+            btnCerrarSesion.Text = "CERRAR SESIÓN";
+            btnCerrarSesion.Bounds = new Rectangle(510, 19, 115, 23);
+            btnCerrarSesion.BackColor = Color.Gray;
+            btnCerrarSesion.ForeColor = Color.White;
+            btnCerrarSesion.FlatStyle = FlatStyle.Flat;
+            btnCerrarSesion.Font = new Font("Microsoft Sans Serif", 7, FontStyle.Bold);
+            btnCerrarSesion.Click += (s, ev) => {
+                Application.Restart();
+            };
+            pnlSuperior.Controls.Add(btnCerrarSesion);
 
             // Cargamos las listas al iniciar
             CargarInicio();

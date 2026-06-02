@@ -34,5 +34,20 @@ namespace Netflix.Datos
         {
             return _coleccion.Find(new BsonDocument()).ToList();
         }
+
+        public void Crear(Contenido contenido)
+        {
+            _coleccion.InsertOne(contenido);
+        }
+
+        public void Actualizar(Contenido contenido)
+        {
+            _coleccion.ReplaceOne(c => c.IDContenido == contenido.IDContenido, contenido);
+        }
+
+        public void Borrar(string id)
+        {
+            _coleccion.DeleteOne(c => c.IDContenido == id);
+        }
     }
 }

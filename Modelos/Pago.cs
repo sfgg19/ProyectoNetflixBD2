@@ -4,6 +4,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Netflix.Modelos
 {
+    [BsonIgnoreExtraElements]
     public class Pago
     {
         public string IDPago { get; set; }

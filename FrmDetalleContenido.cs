@@ -45,9 +45,29 @@ namespace ProyectoFinalCINEPOLIS
                 pnlSeries.Visible = false;
                 btnReproducir.Text = $"▶ REPRODUCIR ({contenidoActual.Duracion} min)";
             }
+
+            // Crear botón Ver Reseñas dinámicamente
+            Button btnVerResenas = new Button();
+            btnVerResenas.Text = "Ver Reseñas";
+            btnVerResenas.Bounds = new Rectangle(btnCalificar.Location.X + 150, btnCalificar.Location.Y, 120, btnCalificar.Height);
+            btnVerResenas.BackColor = Color.Gray;
+            btnVerResenas.ForeColor = Color.White;
+            btnVerResenas.FlatStyle = FlatStyle.Flat;
+            btnVerResenas.Click += (s, ev) => { new FrmResenas(contenidoActual.IDContenido, perfilActual).ShowDialog(); };
+            btnCalificar.Parent.Controls.Add(btnVerResenas);
         }
 
         // --- LÓGICA DE SERIE ---
+
+        public class EpisodioGridItem
+        {
+            public int Temp { get; set; }
+            public int No { get; set; }
+            public string Titulo { get; set; }
+            public int Duracion { get; set; }
+            [Browsable(false)]
+            public Episodio ObjetoOriginal { get; set; }
+        }
 
         private void CargarTemporadas()
         {
@@ -57,40 +77,42 @@ namespace ProyectoFinalCINEPOLIS
             {
                 List<Temporada> temporadas = repoSerie.ObtenerTemporadas(idSerie);
 
-                cmbTemporadas.DataSource = temporadas;
-                cmbTemporadas.DisplayMember = "ToString"; // Usará el override en Temporada.cs
-                cmbTemporadas.ValueMember = "IDTemporada";
+                // Ocultar ComboBox de temporadas
+                cmbTemporadas.Visible = false;
+                Label lblTemp = (Label)pnlSeries.Controls.Cast<Control>().FirstOrDefault(c => c.Text == "Temporada:");
+                if(lblTemp != null) lblTemp.Visible = false;
 
-                // Seleccionar la primera temporada y forzar la carga de episodios
-                if (temporadas.Count > 0)
+                List<EpisodioGridItem> listaPlana = new List<EpisodioGridItem>();
+
+                foreach (var temp in temporadas)
                 {
-                    cmbTemporadas.SelectedIndex = 0;
+                    List<Episodio> episodios = repoSerie.ObtenerEpisodios(contenidoActual.IDContenido, temp.IDTemporada);
+                    foreach(var epi in episodios)
+                    {
+                        listaPlana.Add(new EpisodioGridItem {
+                            Temp = temp.NumeroTemporada,
+                            No = epi.NumeroEpisodio,
+                            Titulo = epi.TituloEpisodio,
+                            Duracion = epi.Duracion,
+                            ObjetoOriginal = epi
+                        });
+                    }
                 }
+
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = listaPlana;
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             }
         }
 
         private void cmbTemporadas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbTemporadas.SelectedItem is Temporada tempSeleccionada)
-            {
-                CargarEpisodios(tempSeleccionada.IDTemporada);
-            }
+            // Ya no se usa
         }
 
         private void CargarEpisodios(string idTemporada)
         {
-            List<Episodio> episodios = repoSerie.ObtenerEpisodios(contenidoActual.IDContenido, idTemporada);
-
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = episodios;
-
-            // Ajustar la visibilidad de las columnas
-            if (dataGridView1.Columns.Contains("IDEpisodio")) dataGridView1.Columns["IDEpisodio"].Visible = false;
-            if (dataGridView1.Columns.Contains("IDTemporada")) dataGridView1.Columns["IDTemporada"].Visible = false;
-
-            // Opcional: renombrar columnas
-            if (dataGridView1.Columns.Contains("NumeroEpisodio")) dataGridView1.Columns["NumeroEpisodio"].HeaderText = "No.";
-            if (dataGridView1.Columns.Contains("TituloEpisodio")) dataGridView1.Columns["TituloEpisodio"].HeaderText = "Título del Episodio";
+            // Ya no se usa individualmente
         }
 
         // --- EVENTO DE REPRODUCCIÓN ---
@@ -102,10 +124,10 @@ namespace ProyectoFinalCINEPOLIS
                 // Verificar si seleccionó un episodio de la tabla
                 if (dataGridView1.CurrentRow != null)
                 {
-                    // Recuperar el objeto Episodio de la fila seleccionada
-                    Episodio epi = (Episodio)dataGridView1.CurrentRow.DataBoundItem;
+                    // Recuperar el objeto de la fila seleccionada
+                    EpisodioGridItem item = (EpisodioGridItem)dataGridView1.CurrentRow.DataBoundItem;
 
-                    FrmReproductor player = new FrmReproductor(epi, perfilActual);
+                    FrmReproductor player = new FrmReproductor(item.ObjetoOriginal, perfilActual);
                     player.ShowDialog();
                 }
                 else

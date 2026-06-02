@@ -5,6 +5,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Netflix.Modelos
 {
+    [BsonIgnoreExtraElements]
     public class Contenido
     {
         [BsonId]
@@ -29,11 +30,13 @@ namespace Netflix.Modelos
         public override string ToString() { return Titulo; }
     }
 
+    [BsonIgnoreExtraElements]
     public class ClasificacionEdad
     {
         public string NombreClasificacion { get; set; }
     }
 
+    [BsonIgnoreExtraElements]
     public class VigenciaDerechos
     {
         public DateTime FechaInicio { get; set; }

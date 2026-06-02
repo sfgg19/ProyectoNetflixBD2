@@ -116,6 +116,24 @@
     <Compile Include="FrmReproductor.Designer.cs">
       <DependentUpon>FrmReproductor.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmRegistro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAdminUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmAdminContenidos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEditarContenido.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmResenas.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FrmSeleccionPerfil.cs">
       <SubType>Form</SubType>
     </Compile>

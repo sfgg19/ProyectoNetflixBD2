@@ -15,7 +15,12 @@ namespace Netflix.Datos
             _coleccion = db.GetCollection<Cuenta>("Cuentas");
         }
 
-        public Cuenta Login(string email)
+        public Cuenta Login(string email, string password)
+        {
+            return _coleccion.Find(c => c.Email == email && c.Password == password).FirstOrDefault();
+        }
+
+        public Cuenta ObtenerCuentaPorEmail(string email)
         {
             return _coleccion.Find(c => c.Email == email).FirstOrDefault();
         }
@@ -29,6 +34,27 @@ namespace Netflix.Datos
         public Cuenta ObtenerCuentaPorID(string id)
         {
             return _coleccion.Find(c => c.IDCuenta == id).FirstOrDefault();
+        }
+
+        public void CrearCuenta(Cuenta cuenta)
+        {
+            cuenta.FechaRegistro = DateTime.Now;
+            _coleccion.InsertOne(cuenta);
+        }
+
+        public System.Collections.Generic.List<Cuenta> ObtenerTodas()
+        {
+            return _coleccion.Find(new MongoDB.Bson.BsonDocument()).ToList();
+        }
+
+        public void ActualizarCuenta(Cuenta cuenta)
+        {
+            _coleccion.ReplaceOne(c => c.IDCuenta == cuenta.IDCuenta, cuenta);
+        }
+
+        public void BorrarCuenta(string id)
+        {
+            _coleccion.DeleteOne(c => c.IDCuenta == id);
         }
     }
 }

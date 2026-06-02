@@ -24,5 +24,11 @@ namespace Netflix.Datos
             }
             return new List<Perfil>();
         }
+
+        public void CrearPerfil(Perfil perfil)
+        {
+            var update = Builders<Cuenta>.Update.Push(c => c.Perfiles, perfil);
+            _coleccion.UpdateOne(c => c.IDCuenta == perfil.IDCuenta, update);
+        }
     }
 }
